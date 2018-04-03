@@ -57,13 +57,14 @@ public class SwaggerConfiguration {
 	    responseMessageList.add(new ResponseMessageBuilder().code(403).message("Forbidden!!!!!").build());
 	    
 		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("user-initial-version")
 				.select()
 				 .paths(userPaths())
 				.apis(RequestHandlerSelectors.basePackage("com.marco.controller"))
-				.paths(PathSelectors.any())				
+				.paths(regex("/api/user.*"))				
 				.build()
 				.apiInfo(usersApiInfo())
-				.tags(new Tag("RestApiController", "API example to users"))
+				.tags(new Tag("RestApiController", "API example to users"), new Tag("RestApiControllerVersion", "API with versioned"))
 				.useDefaultResponseMessages(false)
 		        .globalResponseMessage(RequestMethod.GET, responseMessageList);
 //		        .securitySchemes(Arrays.asList(securityScheme()))
