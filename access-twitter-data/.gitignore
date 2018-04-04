@@ -22,4 +22,9 @@ build/
 nbbuild/
 dist/
 nbdist/
-.nb-gradle/
+.nb-gradle/.classpath
+.mvn/
+.project
+.settings/
+mvnm*
+target/
