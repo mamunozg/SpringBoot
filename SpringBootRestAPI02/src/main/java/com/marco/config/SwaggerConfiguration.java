@@ -32,8 +32,14 @@ import springfox.documentation.service.TokenRequestEndpoint;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.DocExpansion;
+import springfox.documentation.swagger.web.ModelRendering;
+import springfox.documentation.swagger.web.OperationsSorter;
 import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+import springfox.documentation.swagger.web.TagsSorter;
+import springfox.documentation.swagger.web.UiConfiguration;
+import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
@@ -61,14 +67,14 @@ public class SwaggerConfiguration {
 				.select()
 				 .paths(userPaths())
 				.apis(RequestHandlerSelectors.basePackage("com.marco.controller"))
-				.paths(regex("/api/user.*"))				
+				.paths(regex("/bootApp2/api/user.*"))				
 				.build()
 				.apiInfo(usersApiInfo())
 				.tags(new Tag("RestApiController", "API example to users"), new Tag("RestApiControllerVersion", "API with versioned"))
 				.useDefaultResponseMessages(false)
-		        .globalResponseMessage(RequestMethod.GET, responseMessageList);
-//		        .securitySchemes(Arrays.asList(securityScheme()))
-//		        .securityContexts(Arrays.asList(securityContext()));		 
+		        .globalResponseMessage(RequestMethod.GET, responseMessageList)
+		        .securitySchemes(Arrays.asList(securityScheme()))
+		        .securityContexts(Arrays.asList(securityContext()));		 
 	}
 
 	
@@ -132,4 +138,23 @@ public class SwaggerConfiguration {
 	      .forPaths(PathSelectors.regex("/api.*"))
 	      .build();
 	}
+	
+	@Bean
+	public UiConfiguration uiConfig() {
+	    return UiConfigurationBuilder.builder()//<20>
+	            .deepLinking(true)
+	            .displayOperationId(false)
+	            .docExpansion(DocExpansion.LIST)
+	            .defaultModelsExpandDepth(0)
+	            .defaultModelExpandDepth(0)
+	            .defaultModelRendering(ModelRendering.EXAMPLE)
+	            .displayRequestDuration(false)
+	            .filter(false)
+	            .maxDisplayedTags(null)
+	            .operationsSorter(OperationsSorter.ALPHA)
+	            .showExtensions(false)
+	            .tagsSorter(TagsSorter.ALPHA)	            
+	            .validatorUrl(null)
+	            .build();
+	      }
 }
