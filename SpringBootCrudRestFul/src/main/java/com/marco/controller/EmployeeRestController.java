@@ -29,10 +29,9 @@ public class EmployeeRestController {
 	@Autowired
 	public EmployeeDAO employeeDao;
 
-	@GetMapping(consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE}, produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@GetMapping(produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
 	@ApiOperation(value="Search a list of employees", notes="Without params", response=Employee.class, responseContainer="List")	
 	public ResponseEntity<List<Employee>> findAllEmployees() {
-			
 		List<Employee> listEmployee = employeeDao.getAllEmployees();
 		if(listEmployee == null || listEmployee.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -40,7 +39,7 @@ public class EmployeeRestController {
 		return new ResponseEntity<>(employeeDao.getAllEmployees(), HttpStatus.OK);		
 	}
 	
-	@GetMapping(path="/{id}", consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE}, produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@GetMapping(path="/{id}", produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
 	@ApiOperation(value="Search employee by employee number", response=Employee.class)
 	public ResponseEntity<Employee> findEmployeeById(@PathVariable("id") String empNo) {		
 		
@@ -69,7 +68,7 @@ public class EmployeeRestController {
 	}
 	
 	@ApiOperation(value="delete an employee", response=Employee.class)
-	@DeleteMapping(path="/{id}", consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE}, produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@DeleteMapping(path="/{id}")
 	public ResponseEntity<Void> deleteEmployee(@PathVariable("id") String empNo) {
 		Employee emp = employeeDao.getEmployee(empNo);
 		if(emp == null) {
